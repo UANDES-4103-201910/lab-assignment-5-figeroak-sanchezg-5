@@ -27,4 +27,22 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :lastname, :email, :password, :address)
   end
+
+  def user_with_most_tickets
+    users = User.all
+    max_count_tickets = 0
+    user_with_most_tickets = nil
+    for user in users do
+      orders = Order.where(user_id:user.id)
+      count_tickets = 0
+      for order in orders do
+        count_tickets += Ticket.where(order_id:order.id).count
+      end
+      if max_count_tickets < count_tickets
+        max_count_tickets = count_tickets
+        user_with_most_tickets = user
+      end
+    end
+    user_with_most_tickets
+  end
 end
