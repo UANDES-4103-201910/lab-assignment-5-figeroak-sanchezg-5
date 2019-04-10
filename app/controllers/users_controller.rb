@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   def user_with_most_tickets
     users = User.all
     max_count_tickets = 0
-    user_with_most_tickets = nil
+    @user_with_most_tickets = nil
     for user in users do
       orders = Order.where(user_id:user.id)
       count_tickets = 0
@@ -40,9 +40,13 @@ class UsersController < ApplicationController
       end
       if max_count_tickets < count_tickets
         max_count_tickets = count_tickets
-        user_with_most_tickets = user
+        @user_with_most_tickets = user
       end
     end
-    user_with_most_tickets
-  end
+    respond_to do |format|
+      format.json {
+        render json:@user_with_most_tickets.to_json
+      }
+      end
+    end
 end

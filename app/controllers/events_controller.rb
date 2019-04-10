@@ -24,6 +24,11 @@ class EventsController < ApplicationController
   end
 
   def upcoming_events
-
+    @upcoming_events = Event.where(:start_date => Date.today..Date.today+3.month)
+    respond_to do |format|
+      format.json {
+        render json:@upcoming_events.to_json
+      }
+    end
   end
 end
