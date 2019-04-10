@@ -16,4 +16,8 @@ class EventsController < ApplicationController
 
   def update
   end
+
+  def upcoming_events
+
+  end
 end
